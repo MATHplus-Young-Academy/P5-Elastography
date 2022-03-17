@@ -11,13 +11,22 @@ This project aims at facilitating the usage of MR images in mathematical models 
 
 ## Methodology
 
-### Raw Images
+### Images
+
+We plan to consider different types of images:
+- raw phase data coming from MRE experiments
+- smoothed data from IR (inversion recovery) MRE, where some a priori analysis considering tissue mixture (solid/fluid) has been included
+- simulated (synthetic) data
 
 ### Unwrapping
 
-### Solid/Fluid separation and smoothing
-
 ### Parameter estimation
+
+Once the displacements have been recovered, we plan to implement a finite volume (FV) direct inversion method to obtain estimates of mechanical parameters.
+The FV direct method has been developed by [Mura/Sack 2018](#). 
+The approach is based on (i) assuming a linear incompressible elastic or viscoelastic underlying PDEs, (ii) integrating the available data on elementary volumes, (iii) estimating the remaining parameters by a least-squares-type approach
+
+The main questions to be answered concerns the possibility of integrating over different volume sies, and the interplay of this method with the considered preprocessing steps.
 
 
 ## Outcome
