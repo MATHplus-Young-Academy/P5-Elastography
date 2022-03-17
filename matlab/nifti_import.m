@@ -10,7 +10,7 @@ N=length(files_nii);
 cube_all=zeros(N,110,108,5);
 %%
 
-    for i=1:N
+for i=1:N
     nii_file = files_nii(i).name;
 
     file_path = strcat(path,nii_file);
@@ -20,10 +20,8 @@ cube_all=zeros(N,110,108,5);
     cube = double(nii_data.img);
     cube = rescale(cube, -pi, pi); % rescale for unwrapping
 
-    % imshow(cube(:,:,2), [-pi pi])
-
     cube_all(i,:,:,:)=cube;
-    end
-    cube_all = permute (cube_all, [2 3 4 1]);
+end
+cube_all = permute (cube_all, [2 3 4 1]);
 
 end
