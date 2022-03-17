@@ -65,7 +65,7 @@ wavefield = gradwrapFFT(smoothedPhase, voxelsize, parameters);
 parameters.radialFilter.lowpassThreshold = 100; %[1/m] butterworth threshold
 parameters.radialFilter.lowpassOrder = 1; %butterworth order
 shearWaveField = radialFilter(wavefield, voxelsize, (parameters.radialFilter));
-
+%shearWaveField is in Fourier Domain
 
 
 %% example display
