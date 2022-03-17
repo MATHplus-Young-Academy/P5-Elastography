@@ -57,7 +57,15 @@ cube = cube(:,:,1:5,25:48);
 voxelsize = [216 220]/128; 
 
 parameters.numberOfHarmonics = 1; % constant for this kind of acquisition
+% this wavefield contains shear waves and compression waves
+% but we are only interested in the shearwavefield displacement field
 wavefield = gradwrapFFT(smoothedPhase, voxelsize, parameters);
+
+% lowpass filtering using butterworth to filter compression waves
+parameters.radialFilter.lowpassThreshold = 100; %[1/m] butterworth threshold
+parameters.radialFilter.lowpassOrder = 1; %butterworth order
+shearWaveField = radialFilter(wavefield, voxelsize, (parameters.radialFilter));
+
 
 
 %% example display
