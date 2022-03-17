@@ -48,13 +48,8 @@ cube = cube(:,:,1:5,25:48);
   smoothedPhase = smoothPhase(cube, (parameters.smoothPhase));
 
 % get voxel size from dicom image (open it therefore in text editor)
-% sSliceArray.asSlice.__attribute__.size	 = 	128
-% sSliceArray.asSlice[0].dThickness	 = 	2.0
-% sSliceArray.asSlice[0].dPhaseFOV	 = 	216.0
-% sSliceArray.asSlice[0].dReadoutFOV	 = 	220.0
-
-% maybe also voxelsize = [220 216]/128; need to double check 
-voxelsize = [216 220]/128; 
+% or with dicom viewer and search for tag (0028,0030) 
+voxelsize = [2 2]/1000; % in plane resolutio in meter
 
 parameters.numberOfHarmonics = 1; % constant for this kind of acquisition
 % this wavefield contains shear waves and compression waves
