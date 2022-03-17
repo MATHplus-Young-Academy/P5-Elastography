@@ -1,8 +1,10 @@
 clear all;
 
+% path to folder with dicom data
 files = dir('C:\Users\matth\OneDrive\Desktop\work\Hackathon\data\mre_original');
 
-for f = 3:numel(files)
+%% load dicom and extract single images from mosaic (3x3) dicom
+for f = 3:numel(files) % because 1st and 2nd is . and ..
 
     currentFile = fullfile(files(f).folder, files(f).name);
     
@@ -23,9 +25,45 @@ for f = 3:numel(files)
 
 end
 
-%% example display
-nFile = 1;
-nImage = 1;
 
-nMin = min(cube(nFile,:,:,nImage), 'all')
-imshow(squeeze(cube(nFile,:,:,nImage)))
+
+
+
+%% bring dimensions in the right order for unwrapping function
+% img1 img2 slices timesteps (necesarry for proceding function calls)
+cube = permute (cube, [2 3 4 1]);
+
+% quick and dirty cleaning
+% extract the dim3 = slices 1:5 / extract the dim4 =  phase images = 25:48
+cube = cube(:,:,1:5,25:48);
+
+
+
+%% smooth data
+    parameters.smoothPhase.filter = 'gaussian';
+    parameters.smoothPhase.size = [5 5 1]; %[pixel]
+    parameters.smoothPhase.sd = 0.65; %[pixel] standard deviation
+
+  cube = rescale(cube, -pi, pi); %need to be in range of -pi to pi for unwrapping
+  smoothedPhase = smoothPhase(cube, (parameters.smoothPhase));
+
+% get voxel size from dicom image (open it therefore in text editor)
+% sSliceArray.asSlice.__attribute__.size	 = 	128
+% sSliceArray.asSlice[0].dThickness	 = 	2.0
+% sSliceArray.asSlice[0].dPhaseFOV	 = 	216.0
+% sSliceArray.asSlice[0].dReadoutFOV	 = 	220.0
+
+% maybe also voxelsize = [220 216]/128; need to double check 
+voxelsize = [216 220]/128; 
+
+parameters.numberOfHarmonics = 1; % constant for this kind of acquisition
+wavefield = gradwrapFFT(smoothedPhase, voxelsize, parameters);
+
+
+%% example display
+% nFile = 1;
+% nImage = 1;
+% 
+% minValue = min(cube(nFile,:,:,nImage),[], 'all')
+% maxValue = max(cube(nFile,:,:,nImage),[], 'all')
+% imshow(squeeze(cube(nFile,:,:,nImage)), [minValue maxValue])
