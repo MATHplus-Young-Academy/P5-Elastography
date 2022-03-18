@@ -2,6 +2,8 @@ clear all;
 
 % path to folder with dicom data
 files = dir('C:\Users\matth\OneDrive\Desktop\work\Hackathon\data\mre_original');
+% files = dir('C:\Users\matth\OneDrive\Desktop\work\Hackathon\data\mre_original_nii\IRMRE\f191125112201STD1312211075243167072-0045-00001-000001-01.nii');
+
 
 %% load dicom and extract single images from mosaic (3x3) dicom
 for f = 3:numel(files) % because 1st and 2nd is . and ..
@@ -64,9 +66,9 @@ shearWaveField = radialFilter(wavefield, voxelsize, (parameters.radialFilter));
 
 
 %% example display
-% nFile = 1;
-% nImage = 1;
-% 
-% minValue = min(cube(nFile,:,:,nImage),[], 'all')
-% maxValue = max(cube(nFile,:,:,nImage),[], 'all')
-% imshow(squeeze(cube(nFile,:,:,nImage)), [minValue maxValue])
+nFile = 1;
+nImage = 1;
+
+minValue = min(cube(:,:,nImage,nFile),[], 'all')
+maxValue = max(cube(:,:,nImage,nFile),[], 'all')
+imshow(squeeze(cube(:,:,nImage,nFile)), [minValue maxValue])
